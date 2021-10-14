@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,13 +32,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
     # django
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'adminsortable2',
+
+    'jet.dashboard',
+    'jet',
+    'django.contrib.admin',
+
     # apps
     'Shope.apps.ShopeConfig',
 
@@ -45,6 +52,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
 ]
+
+JET_DEFAULT_THEME = 'default'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,13 +66,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 ROOT_URLCONF = 'Bat_Bat_Store.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +85,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'Bat_Bat_Store.wsgi.application'
 
@@ -127,9 +139,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'), ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

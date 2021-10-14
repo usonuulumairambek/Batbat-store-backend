@@ -21,5 +21,7 @@ ruamel.yaml==0.17.16
 ruamel.yaml.clib==0.2.6
 simplejson==3.17.5
 sqlparse==0.4.2
+djangorestframework==3.12.4
+django-admin-sortable2==1.0.2
 uritemplate==4.1.0
 urllib3==1.26.7
