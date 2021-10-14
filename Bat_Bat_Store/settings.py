@@ -34,13 +34,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
 
     # django
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Shope',
     'adminsortable2',
 
     'jet.dashboard',
@@ -54,6 +52,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
 ]
+
 JET_DEFAULT_THEME = 'default'
 
 
@@ -74,8 +73,7 @@ ROOT_URLCONF = 'Bat_Bat_Store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,8 +85,6 @@ TEMPLATES = [
         },
     },
 ]
-
-
 
 
 WSGI_APPLICATION = 'Bat_Bat_Store.wsgi.application'
