@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
 
+    # django
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -45,6 +47,12 @@ INSTALLED_APPS = [
     'jet',
     'django.contrib.admin',
 
+    # apps
+    'Shope.apps.ShopeConfig',
+
+    'drf_yasg',
+
+    'rest_framework',
 ]
 JET_DEFAULT_THEME = 'default'
 
