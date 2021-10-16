@@ -1,7 +1,8 @@
+
 from django.contrib import admin
 
 # Register your models here.
-from Shope.models import Category, Product, Image
+from Shope.models import Category, Product, Image, FavoritesProduct
 
 from adminsortable2.admin import SortableAdminMixin
 
@@ -20,3 +21,7 @@ class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
 class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('product', 'image')
 
+
+@admin.register(FavoritesProduct)
+class ProductFavorite(admin.ModelAdmin):
+    list_display = ('user', 'product')
