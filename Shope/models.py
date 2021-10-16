@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Category(models.Model):
     category = models.CharField(max_length=225)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='Children', null=True, blank=True)
@@ -40,7 +41,6 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     updated = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
-
 
     class Meta:
         ordering = ('orderId', )

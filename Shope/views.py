@@ -1,15 +1,17 @@
 from django.shortcuts import render
-from rest_framework import generics, status
-from .serializers import ProductSerializer, FavoriteProductSerializer
-from .models import Product
+from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from Shope.models import FavoritesProduct
+
+from .serializers import (ProductSerializer, FavoriteProductSerializer,
+                          CategorySerializer, ImageSerializer)
+from .models import FavoritesProduct, Category, Product, Image
 
 
-class ProductView(APIView):
+class ProductView(generics.GenericAPIView):
     serializer_class = ProductSerializer
+    queryset = Product
     
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -34,3 +36,11 @@ class ProductsFavouriteView(generics.ListAPIView):
 #     queryset = FavoritesProduct.objects.filter()
 
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+
+class ImageViewSet(viewsets.ModelViewSet):
+    serializer_class = ImageSerializer
+    queryset = Image.objects.all()
