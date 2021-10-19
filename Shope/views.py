@@ -1,39 +1,10 @@
-from django.shortcuts import render
+from django.http import Http404
 from rest_framework import generics, status, viewsets
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import ParseError
 
-from .serializers import (ProductSerializer, FavoriteProductSerializer,
-                          CategorySerializer, ImageSerializer)
-from .models import FavoritesProduct, Category, Product, Image
-
-
-class ProductView(generics.GenericAPIView):
-    serializer_class = ProductSerializer
-    queryset = Product
-    
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class ProductFavouriteView(generics.RetrieveAPIView, generics.ListAPIView):
-    serializer_class = FavoriteProductSerializer
-    lookup_field = 'id'
-    queryset = FavoritesProduct.objects.filter()
-
-
-class ProductsFavouriteView(generics.ListAPIView):
-    serializer_class = FavoriteProductSerializer
-    queryset = FavoritesProduct.objects.filter()
-
-
-# class CreatFavoriteProductView(generics.CreateAPIView):
-#     serializer_class = FavoriteProductSerializer
-#     queryset = FavoritesProduct.objects.filter()
+from .serializers import ProductSerializer, CategorySerializer, ImageSerializer, ProductListSerializer
+from .models import Category, Product, Image
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -44,3 +15,30 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = ProductListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = ProductListSerializer(instance)
+        return Response(serializer.data)
