@@ -29,6 +29,9 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=150)
     is_active = models.BooleanField(
         default=False,
         help_text='Код активации активирован - True, нет - False')
@@ -42,9 +45,12 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
+# Генерация активационного кода
     def create_activation_code(self):
         string = self.email + str(self.id)
         encode_string = string.encode()
         md5_object = hashlib.md5(encode_string)
         activation_code = md5_object.hexdigest()
         self.activation_code = activation_code
+
+
