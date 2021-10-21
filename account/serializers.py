@@ -5,13 +5,14 @@ from .models import CustomUser
 from .utils import send_activation_code
 
 
+# Регистрация
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(min_length=4, write_only=True)
-    password_confirm = serializers.CharField(min_length=4, write_only=True)
+    password = serializers.CharField(min_length=8, write_only=True)
+    password_confirm = serializers.CharField(min_length=8, write_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'password', 'password_confirm')
+        fields = ('email', 'first_name', 'last_name', 'phone', 'password', 'password_confirm')
 
     def validate(self, validated_data):
         password = validated_data.get('password')
@@ -24,11 +25,17 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         email = validated_data.get('email')
         password = validated_data.get('password')
-        user = CustomUser.objects.create_user(email=email, password=password)
+        first_name = validated_data.get('first_name')
+        last_name = validated_data.get('last_name')
+        phone = validated_data.get('phone')
+
+        user = CustomUser.objects.create_user(email=email, password=password, first_name=first_name,
+                                              last_name=last_name, phone=phone)
         send_activation_code(email=user.email, activation_code=user.activation_code, status='register')
         return user
 
 
+# Вход в аккаунт
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(
@@ -55,6 +62,7 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 
+# Создание нового пароля
 class CreateNewPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
     activation_code = serializers.CharField(max_length=1000,
