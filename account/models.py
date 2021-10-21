@@ -52,5 +52,3 @@ class CustomUser(AbstractUser):
         md5_object = hashlib.md5(encode_string)
         activation_code = md5_object.hexdigest()
         self.activation_code = activation_code
-
-
