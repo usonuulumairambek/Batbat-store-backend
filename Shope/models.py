@@ -42,8 +42,8 @@ class Product(models.Model):
         return f'{self.title}'
 
 
-class Image(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='image')
+class Images(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='product/uploads/%Y/%m/%d/',)
     orderId = models.IntegerField(null=True)
 

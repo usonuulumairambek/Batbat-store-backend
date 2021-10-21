@@ -3,8 +3,8 @@ from rest_framework import generics, status, viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ParseError
 
-from .serializers import ProductSerializer, CategorySerializer, ImageSerializer, ProductListSerializer
-from .models import Category, Product, Image
+from .serializers import ProductSerializer, CategorySerializer, ImagesSerializer, ProductListSerializer
+from .models import Category, Product, Images
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -13,8 +13,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class ImageViewSet(viewsets.ModelViewSet):
-    serializer_class = ImageSerializer
-    queryset = Image.objects.all()
+    serializer_class = ImagesSerializer
+    queryset = Images.objects.all()
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -22,14 +22,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(requester=self.request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -41,4 +40,16 @@ class ProductViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = ProductListSerializer(instance)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
         return Response(serializer.data)

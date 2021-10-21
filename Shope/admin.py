@@ -1,7 +1,7 @@
 from django.contrib import admin
 from adminsortable2.admin import SortableAdminMixin
 
-from Shope.models import Category, Product, Image
+from Shope.models import Category, Product, Images
 
 
 @admin.register(Category)
@@ -14,6 +14,6 @@ class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('title', 'price', 'color')
 
 
-@admin.register(Image)
-class ImageAdmin(SortableAdminMixin, admin.ModelAdmin):
+@admin.register(Images)
+class ImagesAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ('product', 'image')
