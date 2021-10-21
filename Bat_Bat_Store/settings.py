@@ -36,10 +36,12 @@ INSTALLED_APPS = [
 
     # apps
     'Shope.apps.ShopeConfig',
+    'account',
 
+    #libs
     'drf_yasg',
-
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 JET_DEFAULT_THEME = 'default'
@@ -137,3 +139,19 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'), ]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTH_USER_MODEL ='account.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+# SMTP Google mail
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 't.djyrgalbek@gmail.com'
+EMAIL_HOST_PASSWORD = 'Harmony170196'
+EMAIL_USE_TLS = True
