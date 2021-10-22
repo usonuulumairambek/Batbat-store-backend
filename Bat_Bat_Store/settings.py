@@ -1,6 +1,10 @@
+from environs import Env
+
 import os
 from pathlib import Path
 
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,10 +14,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-kvv580q+=)6z(h8v_39d*d#)^w(=vsm(*)n$49%#v_u^-tx^()'
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,11 +92,11 @@ WSGI_APPLICATION = 'Bat_Bat_Store.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bat_bat',
-        'USER': 'adilet',
-        'PASSWORD': 'adi',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': env.str('name_db'),
+        'USER': env.str('user_db'),
+        'PASSWORD': env.str('password_db'),
+        'HOST': env.str('host_db'),
+        'PORT': env.str('port_db'),
     }
 }
 
