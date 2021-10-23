@@ -12,7 +12,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'phone', 'password', 'password_confirm')
+        fields = ('first_name', 'last_name', 'email', 'phone_num', 'password', 'password_confirm')
 
     def validate(self, validated_data):
         password = validated_data.get('password')
@@ -27,10 +27,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         password = validated_data.get('password')
         first_name = validated_data.get('first_name')
         last_name = validated_data.get('last_name')
-        phone = validated_data.get('phone')
+        phone_num = validated_data.get('phone_num')
 
         user = CustomUser.objects.create_user(email=email, password=password, first_name=first_name,
-                                              last_name=last_name, phone=phone)
+                                              last_name=last_name, phone_num=phone_num)
         send_activation_code(email=user.email, activation_code=user.activation_code, status='register')
         return user
 
