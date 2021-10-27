@@ -89,7 +89,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bat_bat',
-        'USER': 'adilet',
+        'USER': 'hikki',
         'PASSWORD': 'adi',
         'HOST': 'localhost',
         'PORT': '5432',
@@ -158,6 +158,6 @@ REST_FRAMEWORK = {
 # SMTP Google mail
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 't.djyrgalbek@gmail.com'
-EMAIL_HOST_PASSWORD = 'Harmony170196'
+EMAIL_HOST_USER = 'a.aidaraliev25@gmail.com'
+EMAIL_HOST_PASSWORD = '0897775622zzz'
 EMAIL_USE_TLS = True

@@ -53,3 +53,26 @@ class ProductViewSet(viewsets.ModelViewSet):
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+
+class AddFavoriteProductView(generics.CreateAPIView):
+    """Add favorite product"""
+    serializer_class = None
+    queryset = ProductSerializer
+
+    def post(self, request, *args, **kwargs):
+        product = Product.objects.filter(id=kwargs['pk']).first()
+        self.request.user.favorites.add(product)
+        return Response(status=status.HTTP_200_OK)
+
+
+class GetFavoriteProductView(generics.ListAPIView):
+    """return all favorite product"""
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        product = self.request.user.favorites.all()
+        return product
+
+
+

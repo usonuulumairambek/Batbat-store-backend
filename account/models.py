@@ -36,6 +36,7 @@ class CustomUser(AbstractUser):
         default=False,
         help_text='Код активации активирован - True, нет - False')
     activation_code = models.CharField(max_length=100, blank=True)
+    favorites = models.ManyToManyField("Shope.Product", null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
