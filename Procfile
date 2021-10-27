@@ -1,0 +1,1 @@
+web: gunicorn Bat_Bat_Store.wsgi --log-file -

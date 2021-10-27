@@ -35,6 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
             size=validated_data.get('size'),
             in_line=validated_data.get('in_line'),
             lines=validated_data.get('lines'),
+            cloth=validated_data.get('cloth'),
             manufacturer_country=validated_data.get('manufacturer_country'),
             available=validated_data.get('available'),
         )
@@ -45,7 +46,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         image = self.context.get('request').FILES
-        Images.objects.create(product_id=instance.id, image=image.get('images'))
+        if image is None:
+            Images.objects.create(product_id=instance.id, image=image.get('images'))
 
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
@@ -55,6 +57,7 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.size = validated_data.get('size', instance.size)
         instance.in_line = validated_data.get('in_line', instance.in_line)
         instance.lines = validated_data.get('lines', instance.lines)
+        instance.cloth = validated_data.get('cloth', instance.cloth)
         instance.manufacturer_country = validated_data.get('manufacturer_country', instance.manufacturer_country)
         instance.available = validated_data.get('available', instance.available)
         instance.save()
@@ -73,4 +76,4 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('orderId',)
